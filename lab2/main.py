@@ -33,3 +33,4 @@ show(s.nsmallest(3,'cena'))
 
 #10 df.filter(regex = 'regex') - pokazuje jedynie wartosci wierszy dla danej kolumny
 show(s.filter(regex = 'cena'))
+
