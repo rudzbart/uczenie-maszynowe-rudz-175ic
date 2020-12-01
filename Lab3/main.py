@@ -1,20 +1,16 @@
+
 import numpy as np
-from math import pi
 import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.svm import SVC
-from sklearn import neighbors
-from sklearn.metrics import mean_absolute_error
-from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 import seaborn as sns
-from bokeh.plotting import figure
-from bokeh.io import output_file, show
+from bokeh.plotting import figure, show
 from bokeh.layouts import gridplot
-from bokeh.models.widgets import Panel, Tabs
-from bokeh.models import CategoricalColorMapper
-from bokeh.plotting import figure
+from bokeh.io import export_png
 
 my_list = [2, 5, 6, 7, 12, 1, 0, 9, 2, 2]
 
@@ -51,164 +47,159 @@ print(my_array.size)
 # a.sum() - suma wartosci w tablicy
 print(my_array.sum())
 
-# A = np.matrix(np.random.random(a,b) - tworzy macierz z losowymy wartosciamy o wymiarach a, b
+x = 2
+y = 8
+
+# np.add(x,y) - dodawanie dwóch liczb
+print(np.add(x, y))
+
+# np.substract(x,y) - odejmowanie dwóch liczb
+print(np.subtract(x, y))
+
+# np.multiply(x,y) - mnożenie dwóch liczb
+print(np.multiply(x, y))
+
+# np.divide(x,y) - dzielenie dwóch liczb
+print(np.divide(x, y))
+
+# np.sqrt(x) - pierwiastek z liczby
+print(np.sqrt(x))
+
 A = np.matrix(np.random.random((2, 2)))
-print(A)
+B = np.asmatrix(y)
+C = np.mat(np.random.random((10, 5)))
+D = np.mat([[11, 7], [22, 5]])
 
-# A.I - odwraca macierz
-print(A.I)
-
-# A.T - transponuje macierz
-print(A.T)
-
-# D = np.mat([[3,4],[5,6]]) - tworzenie macierzy z wlasnymi wartosciami
-D = np.mat([[3, 4], [5, 6]])
-print(D)
-
-# np.add(A,D) - dodawanie macierzy
+# np.add(A,B) - dodawanie macierzy
 print(np.add(A, D))
 
-# df.iloc([0],[0]) - pokazuje wartosc z dataframe'a w danym wierszu i kolumnie
-s = pd.read_csv('samochody1tys.csv')
-#print(s.iloc(2, 2))
+# np.substract(A,B) - odejmowanie macierzy
+print(np.subtract(A, D))
 
-# df.ix[2] - pobiera pojedynczy wiersz danych
-print(s.cena[2])
+# A.T - transpozycja macierzy
+print(A)
+print(A.T)
 
-# df.info() - pokazuje informacje na temat dataframe'u
-print(s.info())
+# np.divide(A,B) - dzielenie macierzy
+print(np.divide(D, A))
 
-# df.count() - pokazuje ilosc wszystkich nie nullowych wartosci
-print(s.count())
+# np.multiply(A,B) - mnożenie macierzy
+print(np.multiply(D, A))
 
-# df.columns() - opisuje kolumny dataframe'u
-#print(s.columns())
+series = pd.Series([6, 11, -4, 4], index=['a', 'b', 'c', 'd'])
 
-X = np.random.random((10,5))
-y = np.array(['M', 'M', 'F', 'F', 'M', 'F', 'M', 'M', 'F', 'F', 'F'])
-X[X < 0.7] = 0
-X_train, X_test, y_train, y_test = train_test_split(X,
-                                                    y,
-                                                    random_state=0)
+# series.max() - zwraca największą wartość
+print(series.max())
 
-# tworzenie LinearRegression
-lr = LinearRegression(normalize=True)
+# series.min() - zwraca najmniejszą wartość
+print(series.min())
 
-# tworzenie svc
-svc = SVC(kernel='linear')
+# series.sum() - sumuje wartości
+print(series.sum())
 
-# tworzenie KNN
-knn = neighbors.KNeighborsClassifier(n_neighbors=5)
+# series.mean() - średnia wartości
+print(series.mean())
 
-# Standaryzacja
+# series.describe() - opis dataframe
+print(series.describe())
+
+# k_means - tworzenie algorytmu k srednich
+k_means = KMeans(n_clusters=3, random_state=0)
+
+# uczenie i testowanie danych
+X = np.random.random((8, 8))
+y = np.array(['B', 'A', 'A', 'A', 'B', 'A', 'B', 'B'])
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+# standaryzacja
 scaler = StandardScaler().fit(X_train)
+standardized_X = scaler.transform(X_train)
+standardized_X_test = scaler.transform(X_test)
 
+# normalizacja
+scaler = Normalizer().fit(X_train)
+normalized_X = scaler.transform(X_train)
+normalized_X_test = scaler.transform(X_test)
 
-# przewidywanie z svc
-y_pred = svc.predict(np.random.random((2,5)))
-print(y_pred)
-
-# średni błąd absolutny
-y_true = [3, -0.5, 2]
-mean_absolute_error(y_true,y_pred)
+# tworzenie wielomianu
+poly = PolynomialFeatures(5)
+poly.fit_transform(X)
 
 x = np.linspace(0, 10, 100)
 y = np.cos(x)
-z = np.sin(x)
 
-# tworzenie plota
-fig = plt.figure()
-fig2 = plt.figure(figsize=plt.figaspect(2.0))
+figure1 = plt.figure()
+figure2 = plt.figure(figsize=plt.figaspect(2.0))
 
-# łączenie punktow markerem
-fig, ax = plt.subplots()
+figure1.add_subplot()
+ax1 = figure1.add_subplot(221)  # row-col-num
+ax3 = figure1.add_subplot(212)
+figure3, axes = plt.subplots(nrows=2, ncols=2)
+figure4, axes2 = plt.subplots(ncols=3)
+figure1, ax = plt.subplots()
+ax.fill(x, y, color='blue')  # rysowanie wielokąta
+axes[0, 0].bar([1, 2, 3], [3, 4, 5])  # pionowe prostokaty ze stala wysokoscia
+axes[1, 0].barh([0.5, 1, 2.5], [0, 1, 2])  # poziome prostokąty ze stałą wysokością
+axes[1, 1].axhline(0.45)  # linia pozioma przez osie
+axes[0, 1].axvline(0.65)  # linia pionowa przez osie
 
-# dodawanie legendy
-ax.set(title='An Example Axes', ylabel='Y-Axis', xlabel='X-Axis')
-
-# dodawanie textu do plota
-ax.text(1, -2.1, 'Example Graph', style='italic')
-
-# dodawanie adnotacji
-ax.annotate("Sine", xy=(8, 0),
-            xycoords='data', xytext=(10.5, 0),
-            textcoords='data', arrowprops=dict(arrowstyle="->", connectionstyle="arc3"), )
-
-tips = sns.load_dataset("tips")
-sns.set_style("whitegrid")
-g = sns.lmplot(x="tip",
-               y="total_bill",
-               data=tips,
-               aspect=2)
-
-g = (g.set_axis_labels("Tip","Total bill(USD)").
-set(xlim=(0,10),ylim=(0,100)))
-
-plt.title("plot2")
-plt.show(g)
-
-# defaultowe ustaiwenia seaborn
-sns.set()
-
-# wykres punktowy
+iris = sns.load_dataset("iris")
 titanic = sns.load_dataset("titanic")
-sns.pointplot(x="class",
-y = "survived",
-hue = "sex",
-data = titanic,
-       palette = {"male": "g",
-                  "female": "m"},
-                 markers = ["^", "o"],
-                           linestyles = ["-", "--"])
 
+# wykres słupkowy
+sns.barplot(x="sex",
+            y="survived",
+            hue="class",
+            data=titanic)
 
-# wykres kolumnowy
-sns.barplot(x="sex", y="survived", hue="class", data=titanic)
+plt.show()
 
-# wykres skrzypcowy
-sns.violinplot(x="age",
-y = "sex",
-    hue = "survived",
-          data = titanic)
+# wykres punktowy z jedną zmienną
+sns.stripplot(x="species",
+              y="petal_length",
+              data=iris)
 
-# ustawienie oznaczenia osi y
-g.set_ylabels("Survived")
+# ustawienie limitu osi y
+plt.ylim(0, 100)
 
-# ustawienie oznaczen obu osi
-g.set_axis_labels("Survived", "Sex")
+# ustawienie limitu osi x
+plt.xlim(0, 10)
 
-x = [1, 2, 3, 4, 5]
-y = [6, 7, 2, 4, 5]
-p = figure(title="simple line example",
- x_axis_label='x',
- y_axis_label='y')
-p.line(x, y, legend="Temp.", line_width=2)
-output_file("lines.html")
+# tytuł wykresu
+plt.title("Nowy Tytuł")
+
+plt.show()
+
+p = figure(tools='box_select')
+x = np.linspace(0, 4 * np.pi, 100)
+y = np.sin(x)
+p.circle(x, y, legend_label="sin(x)")
+p.circle(x, 2 * y, legend_label="2*sin(x)", color="orange")
+p.circle(x, 3 * y, legend_label="3*sin(x)", color="green")
+p.legend.title = "Przykładowy tytuł"
+
+# umiejscowienie legendy
+p.legend.location = 'bottom_left'
+
+# obramówka i tło legendy
+p.legend.border_line_color = "navy"
+p.legend.background_fill_color = "white"
+
+# orientacja legendy
+# p.legend.orientation = "horizontal"
+p.legend.orientation = "vertical"
+
 show(p)
-p1 = figure(plot_width=300, tools='pan,box_zoom')
-p2 = figure(plot_width=300, plot_height=300,
+# układ typu grid
+p1 = figure(plot_width=500, tools='pan,box_zoom')
+p2 = figure(plot_width=500, plot_height=500,
             x_range=(0, 8), y_range=(0, 8))
 p3 = figure()
 
-# ustawianie siatki (grid)
 row1 = [p1, p2]
 row2 = [p3]
 layout = gridplot([[p1, p2], [p3]])
 
-# ustawienie layoutu z zakładkami
-tab1 = Panel(child=p1, title="tab1")
-tab2 = Panel(child=p2, title="tab2")
-layout = Tabs(tabs=[tab1, tab2])
-
-# kolorowanie punktow
-color_mapper = CategoricalColorMapper(
-    factors=['US', 'Asia', 'Europe'],
-    palette=['blue', 'red', 'green'])
-
-# usadowienie legendy
-p.legend.location = 'bottom_left'
-
-# ułozenie legendy - poziomo/pionowo
-p.legend.orientation = "horizontal"
-# lub
-p.legend.orientation = "vertical"
+# export do PNG
+export_png(p, filename="plot.png")
